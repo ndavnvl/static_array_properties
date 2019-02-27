@@ -48,45 +48,71 @@ int main() {
 	printf("This programm searches maximun and minimun elements and calculates average and standard deviation in static array.\n\n");
 
 	for (int cont = 1; cont;) {
-		printf("Input the number of elements in your array \(less than %d\)\n\n", MAX_NUM_OF_EL);
+		printf("In all following inputs extra elements will be ignored but if you input invalid element insted of expected it will be a mistake.\n");
+		printf("Input the number of elements in your array \(less than %d\)\n", MAX_NUM_OF_EL);
 
 		long long int num_of_el = 0;
 
-		scanf_s("%lli", &num_of_el);
-		printf("\n");
+		if (scanf_s("%lli", &num_of_el) == 1) {
+			fseek(stdin, 0, SEEK_END);	//Плохой вариант, но для лучшего впору писать библиотеку...
+			printf("\n");
 
-		if (num_of_el <= 0) {
-			printf("You input invalid number of element. It should be more then 0. Please, try again...\n\n");
-		}
-		else {
-
-			if (num_of_el > MAX_NUM_OF_EL) {
-				printf("You input invalid number of element. It should be less then %d. Please, try again...\n\n", MAX_NUM_OF_EL);
+			if (num_of_el <= 0) {
+				printf("You input invalid number of element. It should be more then 0. Please, try again...\n\n");
 			}
 			else {
-				printf("Input the elements of your array through the gap.\n\n", MAX_NUM_OF_EL);
 
-				for (long long int i = 0; i < num_of_el; i++) {
-					scanf_s("%Lf", &input_array[i]);
+				if (num_of_el > MAX_NUM_OF_EL) {
+					printf("You input invalid number of element. It should be less then %d. Please, try again...\n\n", MAX_NUM_OF_EL);
 				}
-				
-				printf("\n");
-				long double max_el = 0;
-				long double min_el = 0;
-				long double average = 0;
-				long double standart_div = 0;
+				else {
+					printf("Input the elements of your array through the gap.\n", MAX_NUM_OF_EL);
 
-				if (!(calculation_func(num_of_el, &max_el, &min_el, &average, &standart_div))) {
-					printf("Maximum element is %.10Lf\nMinimum element is %.10Lf\nAverage is %.10Lf\nStandard deviation is %.10Lf\n\n", max_el, min_el, average, standart_div);
+					int err = 0;
 
-					printf("If you want to it again with another parameters input 1, else input 0\n");
-					scanf_s("%d", &cont);
-					printf("\n");
+					for (long long int i = 0; i < num_of_el && err != 1; i++) {
+
+						if (scanf_s("%Lf", &input_array[i]) != 1) {
+							err = 1;
+						}
+
+					}
+
+					fseek(stdin, 0, SEEK_END);
+
+					if (!(err)) {
+						printf("\n");
+
+						long double max_el = 0;
+						long double min_el = 0;
+						long double average = 0;
+						long double standart_div = 0;
+
+						if (!(calculation_func(num_of_el, &max_el, &min_el, &average, &standart_div))) {
+							printf("Maximum element is %.10Lf\nMinimum element is %.10Lf\nAverage is %.10Lf\nStandard deviation is %.10Lf\n\n", max_el, min_el, average, standart_div);
+
+							printf("If you want to it again with another parameters input 1, else input 0\n");
+							scanf_s("%d", &cont);
+							printf("\n");
+						}
+
+					}
+					else {
+						printf("You input not a number. Please, try again...\n\n");
+					}
 				}
 
 			}
 
 		}
+
+		else {
+			fseek(stdin, 0, SEEK_END);
+			printf("You input not a number. Please, try again...\n\n");
+		}
+
+
 	}
 
+	return 0;
 }
