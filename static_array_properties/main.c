@@ -48,13 +48,16 @@ int main() {
 	printf("This programm searches maximun and minimun elements and calculates average and standard deviation in static array.\n\n");
 
 	for (int cont = 1; cont;) {
-		printf("In all following inputs extra elements will be ignored but if you input invalid element insted of expected it will be a mistake.\n");
+		printf("In all following inputs extra elements will be ignored but if you input invalid element insted of expected it will\nbe a mistake.\n\n");
 		printf("Input the number of elements in your array \(less than %d\)\n", MAX_NUM_OF_EL);
 
 		long long int num_of_el = 0;
 
 		if (scanf_s("%lli", &num_of_el) == 1) {
-			fseek(stdin, 0, SEEK_END);	//Плохой вариант, но для лучшего впору писать библиотеку...
+			ungetc('~', stdin);
+
+			while (getchar() != '\n');
+
 			printf("\n");
 
 			if (num_of_el <= 0) {
@@ -78,11 +81,13 @@ int main() {
 
 					}
 
-					fseek(stdin, 0, SEEK_END);
+					ungetc('~', stdin);
+
+					while (getchar() != '\n');
+
+					printf("\n");
 
 					if (!(err)) {
-						printf("\n");
-
 						long double max_el = 0;
 						long double min_el = 0;
 						long double average = 0;
@@ -92,7 +97,19 @@ int main() {
 							printf("Maximum element is %.10Lf\nMinimum element is %.10Lf\nAverage is %.10Lf\nStandard deviation is %.10Lf\n\n", max_el, min_el, average, standart_div);
 
 							printf("If you want to it again with another parameters input 1, else input 0\n");
-							scanf_s("%d", &cont);
+
+							while (scanf_s("%d", &cont) != 1) {
+								ungetc('~', stdin);
+
+								while (getchar() != '\n');
+
+								printf("\nTry again...\n\n");
+							}
+
+							ungetc('~', stdin);
+
+							while (getchar() != '\n');
+
 							printf("\n");
 						}
 
@@ -107,8 +124,11 @@ int main() {
 		}
 
 		else {
-			fseek(stdin, 0, SEEK_END);
-			printf("You input not a number. Please, try again...\n\n");
+			ungetc('~', stdin);
+
+			while (getchar() != '\n');
+
+			printf("\nYou input not a number. Please, try again...\n\n");
 		}
 
 
