@@ -69,7 +69,7 @@ int main() {
 					printf("You input invalid number of element. It should be less then %d. Please, try again...\n\n", MAX_NUM_OF_EL);
 				}
 				else {
-					printf("Input the elements of your array through the gap.\n", MAX_NUM_OF_EL);
+					printf("Input the elements of your array through the gap.\n");
 
 					int err = 0;
 
@@ -96,7 +96,7 @@ int main() {
 						if (!(calculation_func(num_of_el, &max_el, &min_el, &average, &standart_div))) {
 							printf("Maximum element is %.10Lf\nMinimum element is %.10Lf\nAverage is %.10Lf\nStandard deviation is %.10Lf\n\n", max_el, min_el, average, standart_div);
 
-							printf("If you want to it again with another parameters input 1, else input 0\n");
+							printf("If you want to do it again with another parameters input 1, else input 0\n");
 
 							while (scanf_s("%d", &cont) != 1) {
 								ungetc('~', stdin);
