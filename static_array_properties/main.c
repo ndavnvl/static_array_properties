@@ -8,7 +8,15 @@
 long double input_array[MAX_NUM_OF_EL];
 
 
-int calculation_func(long long int num_of_el, long double *max_el_ptr, long double *min_el_ptr, long double *average_ptr, long double *standart_dev_ptr) {
+
+
+
+
+
+
+int calculation_func(long long int num_of_el, long double *max_el_ptr, \
+	long double *min_el_ptr, long double *average_ptr, \
+	long double *standart_dev_ptr) {
 
 	*max_el_ptr = input_array[0];
 	*min_el_ptr = input_array[0];
@@ -36,11 +44,18 @@ int calculation_func(long long int num_of_el, long double *max_el_ptr, long doub
 	}
 
 	*average_ptr = sum_of_el / num_of_el;
-	*standart_dev_ptr = sqrt(sum_of_squares / num_of_el - *average_ptr * *average_ptr);
+	*standart_dev_ptr = sqrt(sum_of_squares / num_of_el - *average_ptr * \
+		*average_ptr);
 
 	return 0;
 
 }
+
+
+
+
+
+
 
 
 int main() {
@@ -49,7 +64,8 @@ int main() {
 
 	for (int cont = 1; cont;) {
 		printf("In all following inputs extra elements will be ignored but if you input invalid element insted of expected it will\nbe a mistake.\n\n");
-		printf("Input the number of elements in your array \(less than %d\)\n", MAX_NUM_OF_EL);
+		printf("Input the number of elements in your array \(less than %d\)\n", \
+			MAX_NUM_OF_EL);
 
 		long long int num_of_el = 0;
 
