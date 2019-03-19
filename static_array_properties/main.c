@@ -3,6 +3,7 @@
 
 
 #define MAX_NUM_OF_EL 1000
+//#define ONE_FUNCTION
 
 
 long double input_array[MAX_NUM_OF_EL];
@@ -12,6 +13,9 @@ long double input_array[MAX_NUM_OF_EL];
 
 
 
+
+
+#ifdef ONE_FUNCTION
 
 
 int calculation_func(long long int num_of_el, long double *max_el_ptr, \
@@ -52,6 +56,82 @@ int calculation_func(long long int num_of_el, long double *max_el_ptr, \
 }
 
 
+#else
+
+
+long double max_el_func(long double *input_array_ptr, long long int num_of_el) {
+
+	long double max_el = *input_array_ptr;
+
+	for (long long int i = 0; i < num_of_el; i++) {
+		if (input_array_ptr[i] > max_el)
+			max_el = input_array_ptr[i];
+	}
+
+	return max_el;
+}
+
+
+
+
+
+
+
+
+long double min_el_func(long double *input_array_ptr, long long int num_of_el) {
+
+	long double min_el = *input_array_ptr;
+
+	for (long long int i = 0; i < num_of_el; i++) {
+		if (input_array_ptr[i] < min_el)
+			min_el = input_array_ptr[i];
+	}
+
+	return min_el;
+}
+
+
+
+
+
+
+
+
+long double average_func(long double *input_array_ptr, long long int num_of_el) {
+
+	long double sum_of_el = 0;
+
+	for (long long int i = 0; i < num_of_el; i++) {
+		sum_of_el += input_array_ptr[i];
+	}
+
+	return sum_of_el / (long double)num_of_el;
+}
+
+
+
+
+
+
+
+
+long double standart_dev_func(long double *input_array_ptr, long long int num_of_el) {
+
+	long double sum_of_quadr_el = 0;
+
+	for (long long int i = 0; i < num_of_el; i++) {
+		sum_of_quadr_el += input_array_ptr[i] * input_array_ptr[i];
+	}
+
+	long double average = average_func(input_array_ptr, num_of_el);
+
+	return sum_of_quadr_el / num_of_el - average * average;
+}
+
+
+#endif // ONE_FUNCTION
+
+
 
 
 
@@ -67,7 +147,7 @@ int main() {
 		printf("Input the number of elements in your array \(less than %d\)\n", \
 			MAX_NUM_OF_EL);
 
-		long long int num_of_el = 0;
+		long long int num_of_el;
 
 		if (scanf_s("%lli", &num_of_el) == 1) {
 			ungetc('~', stdin);
@@ -104,30 +184,44 @@ int main() {
 					printf("\n");
 
 					if (!(err)) {
-						long double max_el = 0;
-						long double min_el = 0;
-						long double average = 0;
-						long double standart_div = 0;
+						long double max_el;
+						long double min_el;
+						long double average;
+						long double standart_div;
 
-						if (!(calculation_func(num_of_el, &max_el, &min_el, &average, &standart_div))) {
-							printf("Maximum element is %.10Lf\nMinimum element is %.10Lf\nAverage is %.10Lf\nStandard deviation is %.10Lf\n\n", max_el, min_el, average, standart_div);
 
-							printf("If you want to do it again with another parameters input 1, else input 0\n");
+#ifdef ONE_FUNCTION
 
-							while (scanf_s("%d", &cont) != 1) {
-								ungetc('~', stdin);
+							calculation_func(&input_array, num_of_el, &max_el, &min_el, &average, &standart_div);
 
-								while (getchar() != '\n');
+#else
 
-								printf("\nTry again...\n\n");
-							}
+							max_el = max_el_func(&input_array, num_of_el);
+							min_el = min_el_func(&input_array, num_of_el);
+							average = average_func(&input_array, num_of_el);
+							standart_div = standart_dev_func(&input_array, num_of_el);
 
+#endif // ONE_FUNCTION
+
+
+						printf("Maximum element is %.10Lf\nMinimum element is %.10Lf\nAverage is %.10Lf\nStandard deviation is %.10Lf\n\n", max_el, min_el, average, standart_div);
+
+						printf("If you want to do it again with another parameters input 1, else input 0\n");
+
+						while (scanf_s("%d", &cont) != 1) {
 							ungetc('~', stdin);
 
 							while (getchar() != '\n');
 
-							printf("\n");
+							printf("\nTry again...\n\n");
 						}
+
+						ungetc('~', stdin);
+
+						while (getchar() != '\n');
+
+						printf("\n");
+					
 
 					}
 					else {
